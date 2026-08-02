@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Library Management System developed using HTML, CSS and JavaScript for managing books, members and library operations.">
+<meta name="keywords" content="Library Management System, HTML, CSS, JavaScript, Responsive Website">
+<meta name="Ramtejkumar" content="Name">
+<link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+
+<title>Book Management</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body class="dashboard-body">
+
+<div class="dashboard">
+
+<!-- Sidebar -->
+
+<aside class="sidebar">
+
+<div class="sidebar-logo">
+
+<i class="fa-solid fa-book-open-reader"></i>
+
+<h2>Smart Library</h2>
+
+</div>
+
+<ul>
+
+<li>
+
+<a href="dashboard.html">
+
+<i class="fa-solid fa-house"></i>
+
+Dashboard
+
+</a>
+
+</li>
+
+<li class="active">
+
+<a href="books.html">
+
+<i class="fa-solid fa-book"></i>
+
+Books
+
+</a>
+
+</li>
+
+<li>
+
+<a href="members.html">
+
+<i class="fa-solid fa-users"></i>
+
+Members
+
+</a>
+
+</li>
+
+<li>
+
+<a href="issue-return.html">
+
+<i class="fa-solid fa-right-left"></i>
+
+Issue / Return
+
+</a>
+
+</li>
+
+<li>
+
+<a href="#" onclick="logout()">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Logout
+
+</a>
+
+</li>
+
+</ul>
+
+</aside>
+
+<!-- Main -->
+
+<main class="main-content">
+
+<h1>Book Management</h1>
+
+<div class="crud-form">
+
+<input type="text" id="bookTitle" placeholder="Book Title">
+
+<input type="text" id="bookAuthor" placeholder="Author">
+
+<input type="text" id="bookCategory" placeholder="Category">
+ 
+<input type="text" id="bookId" placeholder="Enter Book ID" required>
+ 
+<input type="text" id="isbn" placeholder="Enter ISBN" required>
+
+<input type="number" id="quantity" placeholder="Enter Quantity" min="1" required>
+ 
+<input type="text" id="shelf" placeholder="Shelf Number">
+<input type="hidden" id="editingBookId">
+<button id="bookBtn" onclick="saveBook()">
+    Add Book
+</button>
+
+</div>
+
+<div class="search-box">
+
+<input
+
+type="text"
+
+id="searchBook"
+
+placeholder="Search Books..."
+
+onkeyup="searchBooks()">
+
+</div>
+
+<table id="bookTable">
+
+<thead>
+    <tr>
+        <th>Book ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Category</th>
+        <th>ISBN</th>
+        <th>Quantity</th>
+        <th>Available</th>
+        <th>Shelf</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+
+<tbody id="bookTableBody">
+</tbody>
+
+</table>
+
+</main>
+
+</div>
+
+<script src="../js/config.js"></script>
+<script src="../js/books.js"></script>
+
+</body>
+
+</html>

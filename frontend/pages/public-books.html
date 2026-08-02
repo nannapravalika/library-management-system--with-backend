@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Library Management System developed using HTML, CSS and JavaScript for managing books, members and library operations.">
+<meta name="keywords" content="Library Management System, HTML, CSS, JavaScript, Responsive Website">
+<meta name="Ramtejkumar" content="Name">
+<link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+
+<title>Books | Smart Library</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+<nav class="navbar">
+
+<div class="logo">
+
+<i class="fa-solid fa-book-open-reader"></i>
+
+<span>Smart Library</span>
+
+</div>
+
+<ul class="nav-links">
+
+<li><a href="../index.html">Home</a></li>
+
+<li><a href="public-books.html" class="active">Books</a></li>
+
+<li><a href="categories.html">Categories</a></li>
+
+<li><a href="about.html">About</a></li>
+
+<li><a href="contact.html">Contact</a></li>
+
+<li><a href="login.html" class="login-btn">Login</a></li>
+
+</ul>
+
+<div class="menu-btn">
+
+<i class="fa-solid fa-bars"></i>
+
+</div>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<div class="hero-text">
+
+<h1>
+
+Explore Our
+
+<span>Book Collection</span>
+
+</h1>
+
+<p>
+
+Discover thousands of books from different categories to support your learning journey.
+
+</p>
+
+</div>
+
+<div class="hero-image">
+
+<img src="../assests/books-banner.jpg" alt="Books">
+
+</div>
+
+</section>
+
+<section class="books">
+
+<h2 class="section-title">
+
+Library Collection
+
+</h2>
+
+<div class="search-container">
+
+<input
+type="text"
+id="bookSearch"
+placeholder="Search books by title or author...">
+
+</div>
+
+<div class="book-grid" id="bookGrid">
+
+<div class="book-card">
+
+<img src="../assests/book1.jpg">
+
+<h3>Data Structures Using C</h3>
+
+<p>Author: Mark Allen Weiss</p>
+
+<span class="book-category">Programming</span>
+
+</div>
+
+<div class="book-card">
+
+<img src="../assests/book2.jpg">
+
+<h3>Artificial Intelligence</h3>
+
+<p>Author: Stuart Russell</p>
+
+<span class="book-category">Technology</span>
+
+</div>
+
+<div class="book-card">
+
+<img src="../assests/book3.jpg">
+
+<h3>Machine Learning</h3>
+
+<p>Author: Tom Mitchell</p>
+
+<span class="book-category">Computer Science</span>
+
+</div>
+
+<div class="book-card">
+
+<img src="../assests/book5.jpg">
+
+<h3>Operating Systems</h3>
+
+<p>Author: Abraham Silberschatz</p>
+
+<span class="book-category">Computer Science</span>
+
+</div>
+
+<div class="book-card">
+
+<img src="../assests/book4.jpg">
+
+<h3>Business Management</h3>
+
+<p>Author: Peter Drucker</p>
+
+<span class="book-category">Business</span>
+
+</div>
+
+<div class="book-card">
+
+<img src="../assests/book6.jpg">
+
+<h3>Engineering Mathematics</h3>
+
+<p>Author: B.S. Grewal</p>
+
+<span class="book-category">Mathematics</span>
+
+</div>
+
+<div class="book-card">
+
+<img src="../assests/book7.jpg">
+
+<h3>Modern Physics</h3>
+
+<p>Author: Halliday</p>
+
+<span class="book-category">Science</span>
+
+</div>
+
+<div class="book-card">
+
+<img src="../assests/book8.jpg">
+
+<h3>World History</h3>
+
+<p>Author: Norman Lowe</p>
+
+<span class="book-category">History</span>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>
+
+© 2026 Smart Library Management System
+
+</p>
+
+</footer>
+
+<script src="../js/main.js"></script>
+
+<script>
+
+const search=document.getElementById("bookSearch");
+
+const books=document.querySelectorAll(".book-card");
+
+search.addEventListener("keyup",()=>{
+
+const value=search.value.toLowerCase();
+
+books.forEach(book=>{
+
+const text=book.innerText.toLowerCase();
+
+book.style.display=text.includes(value)?"block":"none";
+
+});
+
+});
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Library Management System developed using HTML, CSS and JavaScript for managing books, members and library operations.">
+    <meta name="keywords" content="Library Management System, HTML, CSS, JavaScript, Responsive Website">
+    <meta name="Ramtejkumar" content="Name">
+<link rel="icon" href="./assests/favicon.ico" type="image/x-icon">
+
+    <title>Smart Library Management System</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header>
+
+<nav class="navbar">
+
+<div class="logo">
+
+<i class="fa-solid fa-book-open-reader"></i>
+
+<span>Smart Library</span>
+
+</div>
+
+<ul class="nav-links">
+
+<li><a href="index.html" class="active">Home</a></li>
+
+<li><a href="pages/public-books.html">Books</a></li>
+
+<li><a href="pages/categories.html">Categories</a></li>
+
+<li><a href="pages/about.html">About</a></li>
+
+<li><a href="pages/contact.html">Contact</a></li>
+
+<li><a href="pages/login.html" class="login-btn">Login</a></li>
+
+</ul>
+
+<div class="menu-btn">
+
+<i class="fa-solid fa-bars"></i>
+
+</div>
+
+</nav>
+
+</header>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+<div class="hero-text">
+
+<h1>
+
+Discover Your Next
+
+<span>Favorite Book</span>
+
+</h1>
+
+<p>
+
+Explore thousands of books across multiple categories. Learn, discover and grow with our modern digital library.
+
+</p>
+
+<a href="pages/public-books.html" class="btn">
+
+Explore Books
+
+</a>
+
+</div>
+
+<div class="hero-image">
+
+<img src="./assests/library-hero.jpg" alt="Library">
+
+</div>
+
+</section>
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features">
+
+<h2 class="section-title">
+
+Why Choose Our Library
+
+</h2>
+
+<div class="feature-grid">
+
+<div class="feature-card">
+
+<i class="fa-solid fa-book"></i>
+
+<h3>10,000+ Books</h3>
+
+<p>
+
+A huge collection of academic and non-academic books.
+
+</p>
+
+</div>
+
+<div class="feature-card">
+
+<i class="fa-solid fa-laptop"></i>
+
+<h3>Digital Access</h3>
+
+<p>
+
+Access online resources and e-books anytime.
+
+</p>
+
+</div>
+
+<div class="feature-card">
+
+<i class="fa-solid fa-users"></i>
+
+<h3>Expert Librarians</h3>
+
+<p>
+
+Friendly staff to help you find the right resources.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= FEATURED BOOKS ================= -->
+
+<section class="books">
+
+<h2 class="section-title">
+
+Featured Books
+
+</h2>
+
+<div class="book-grid">
+
+<div class="book-card">
+
+<img src="./assests/book1.jpg">
+
+<h3>Data Structures</h3>
+
+<p>Programming</p>
+
+</div>
+
+<div class="book-card">
+
+<img src="./assests/book2.jpg">
+
+<h3>Artificial Intelligence</h3>
+
+<p>Technology</p>
+
+</div>
+
+<div class="book-card">
+
+<img src="./assests/book3.jpg">
+
+<h3>Machine Learning</h3>
+
+<p>Computer Science</p>
+
+</div>
+
+<div class="book-card">
+
+<img src="./assests/book4.jpg">
+
+<h3>Business Management</h3>
+
+<p>Management</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= CATEGORIES ================= -->
+
+<section class="categories">
+
+<h2 class="section-title">
+
+Book Categories
+
+</h2>
+
+<div class="category-grid">
+
+<div class="category-card">
+
+<i class="fa-solid fa-code"></i>
+
+<h3>Programming</h3>
+
+</div>
+
+<div class="category-card">
+
+<i class="fa-solid fa-microscope"></i>
+
+<h3>Science</h3>
+
+</div>
+
+<div class="category-card">
+
+<i class="fa-solid fa-calculator"></i>
+
+<h3>Mathematics</h3>
+
+</div>
+
+<div class="category-card">
+
+<i class="fa-solid fa-chart-line"></i>
+
+<h3>Business</h3>
+
+</div>
+
+<div class="category-card">
+
+<i class="fa-solid fa-landmark"></i>
+
+<h3>History</h3>
+
+</div>
+
+<div class="category-card">
+
+<i class="fa-solid fa-earth-americas"></i>
+
+<h3>Geography</h3>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= STATISTICS ================= -->
+
+<section class="stats">
+
+<div class="stat">
+
+<h2>10K+</h2>
+
+<p>Books</p>
+
+</div>
+
+<div class="stat">
+
+<h2>2K+</h2>
+
+<p>Members</p>
+
+</div>
+
+<div class="stat">
+
+<h2>150+</h2>
+
+<p>Authors</p>
+
+</div>
+
+<div class="stat">
+
+<h2>500+</h2>
+
+<p>Daily Visitors</p>
+
+</div>
+
+</section>
+
+<!-- ================= TESTIMONIAL ================= -->
+
+<section class="testimonial">
+
+<h2 class="section-title">
+
+What Students Say
+
+</h2>
+
+<div class="testimonial-card">
+
+<p>
+
+"The Smart Library has made studying much easier with its extensive collection and peaceful environment."
+
+</p>
+
+<h3>
+
+- Sarah Johnson
+
+</h3>
+
+</div>
+
+</section>
+
+<!-- ================= CONTACT ================= -->
+
+<section class="contact">
+
+<h2 class="section-title">
+
+Visit Our Library
+
+</h2>
+
+<p>
+
+📍 123 Knowledge Avenue, Hyderabad
+
+</p>
+
+<p>
+
+📞 +91 9876543210
+
+</p>
+
+<p>
+
+✉ library@smartlibrary.com
+
+</p>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+<p>
+
+© 2026 Smart Library Management System | All Rights Reserved
+
+</p>
+
+</footer>
+
+<script src="js/main.js"></script>
+
+</body>
+
+</html>

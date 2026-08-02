@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Library Management System developed using HTML, CSS and JavaScript for managing books, members and library operations.">
+<meta name="keywords" content="Library Management System, HTML, CSS, JavaScript, Responsive Website">
+<meta name="Ramtejkumar" content="Name">
+<link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+
+<title>Dashboard | Smart Library</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body class="dashboard-body">
+
+<div class="dashboard">
+
+<!-- Sidebar -->
+
+<aside class="sidebar">
+
+<div class="sidebar-logo">
+
+<i class="fa-solid fa-book-open-reader"></i>
+
+<h2>Smart Library</h2>
+
+</div>
+
+<ul>
+
+<li class="active">
+
+<a href="dashboard.html">
+
+<i class="fa-solid fa-house"></i>
+
+Dashboard
+
+</a>
+
+</li>
+
+<li>
+
+<a href="books.html">
+
+<i class="fa-solid fa-book"></i>
+
+Books
+
+</a>
+
+</li>
+
+<li>
+
+<a href="members.html">
+
+<i class="fa-solid fa-users"></i>
+
+Members
+
+</a>
+
+</li>
+
+<li>
+
+<a href="issue-return.html">
+
+<i class="fa-solid fa-right-left"></i>
+
+Issue / Return
+
+</a>
+
+</li>
+
+<li>
+
+<a href="../index.html">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Logout
+
+</a>
+
+</li>
+
+</ul>
+
+</aside>
+
+<!-- Main Content -->
+
+<main class="main-content">
+
+<header class="topbar">
+
+<h1>Dashboard</h1>
+
+<div class="admin-profile">
+
+<i class="fa-solid fa-circle-user"></i>
+
+<span>Administrator</span>
+
+</div>
+
+</header>
+
+<!-- Statistics -->
+
+<section class="dashboard-cards">
+
+<div class="dash-card">
+
+<i class="fa-solid fa-book"></i>
+
+<h2>420</h2>
+
+<p>Total Books</p>
+
+</div>
+
+<div class="dash-card">
+
+<i class="fa-solid fa-users"></i>
+
+<h2>150</h2>
+
+<p>Members</p>
+
+</div>
+
+<div class="dash-card">
+
+<i class="fa-solid fa-book-open"></i>
+
+<h2>95</h2>
+
+<p>Issued Books</p>
+
+</div>
+
+<div class="dash-card">
+
+<i class="fa-solid fa-circle-check"></i>
+
+<h2>325</h2>
+
+<p>Available</p>
+
+</div>
+
+</section>
+
+<!-- Quick Actions -->
+
+<section class="quick-actions">
+
+<h2>Quick Actions</h2>
+
+<div class="action-grid">
+
+<a href="books.html" class="action-btn">
+
+<i class="fa-solid fa-plus"></i>
+
+Add Book
+
+</a>
+
+<a href="members.html" class="action-btn">
+
+<i class="fa-solid fa-user-plus"></i>
+
+Add Member
+
+</a>
+
+<a href="issue-return.html" class="action-btn">
+
+<i class="fa-solid fa-right-left"></i>
+
+Issue Book
+
+</a>
+
+</div>
+
+</section>
+
+<!-- Recent Books -->
+
+<section class="table-section">
+
+<h2>Recently Added Books</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Book</th>
+
+<th>Author</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>101</td>
+
+<td>Artificial Intelligence</td>
+
+<td>Stuart Russell</td>
+
+<td>Available</td>
+
+</tr>
+
+<tr>
+
+<td>102</td>
+
+<td>Clean Code</td>
+
+<td>Robert Martin</td>
+
+<td>Issued</td>
+
+</tr>
+
+<tr>
+
+<td>103</td>
+
+<td>Operating Systems</td>
+
+<td>Silberschatz</td>
+
+<td>Available</td>
+
+</tr>
+
+<tr>
+
+<td>104</td>
+
+<td>Database Systems</td>
+
+<td>Elmasri</td>
+
+<td>Available</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+</main>
+
+</div>
+
+</body>
+
+</html>

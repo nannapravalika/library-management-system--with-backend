@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Library Management System developed using HTML, CSS and JavaScript for managing books, members and library operations.">
+    <meta name="keywords" content="Library Management System, HTML, CSS, JavaScript, Responsive Website">
+    <meta name="Ramtejkumar" content="Name">
+    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <title>Member Management</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body class="dashboard-body">
+
+<div class="dashboard">
+
+<!-- Sidebar -->
+
+<aside class="sidebar">
+
+<div class="sidebar-logo">
+
+<i class="fa-solid fa-book-open-reader"></i>
+
+<h2>Smart Library</h2>
+
+</div>
+
+<ul>
+
+<li>
+
+<a href="dashboard.html">
+
+<i class="fa-solid fa-house"></i>
+
+Dashboard
+
+</a>
+
+</li>
+
+<li>
+
+<a href="books.html">
+
+<i class="fa-solid fa-book"></i>
+
+Books
+
+</a>
+
+</li>
+
+<li class="active">
+
+<a href="members.html">
+
+<i class="fa-solid fa-users"></i>
+
+Members
+
+</a>
+
+</li>
+
+<li>
+
+<a href="issue-return.html">
+
+<i class="fa-solid fa-right-left"></i>
+
+Issue / Return
+
+</a>
+
+</li>
+
+<li>
+
+<a href="../index.html">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Logout
+
+</a>
+
+</li>
+
+</ul>
+
+</aside>
+
+<main class="main-content">
+
+<h1>Member Management</h1>
+
+<div class="crud-form">
+
+<input
+type="text"
+id="memberName"
+placeholder="Member Name">
+
+<input
+type="email"
+id="memberEmail"
+placeholder="Email Address">
+
+<input
+type="text"
+id="memberPhone"
+placeholder="Phone Number">
+
+<button onclick="addMember()">
+
+Add Member
+
+</button>
+
+</div>
+
+<div class="search-box">
+
+<input
+
+type="text"
+
+id="searchMember"
+
+placeholder="Search Members"
+
+onkeyup="searchMembers()">
+
+</div>
+
+<table id="memberTable">
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>Email</th>
+
+<th>Phone</th>
+
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+</tbody>
+
+</table>
+
+</main>
+
+</div>
+
+<script src="../js/members.js"></script>
+
+</body>
+
+</html>
