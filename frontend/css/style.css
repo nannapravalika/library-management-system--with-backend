@@ -1723,6 +1723,17 @@ border-radius:10px;
 font-size:16px;
 
 }
+.crud-form  select{
+
+padding:14px;
+
+border:1px solid #ccc;
+
+border-radius:10px;
+
+font-size:16px;
+
+}
 
 .crud-form button{
 
