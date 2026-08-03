@@ -84,15 +84,17 @@ Logout
 
 <div class="crud-form">
 
-<input
-type="text"
-id="bookName"
-placeholder="Book Title">
+<select id="bookSelect">
 
-<input
-type="text"
-id="memberName"
-placeholder="Member Name">
+<option value="">Select Book</option>
+
+</select>
+
+<select id="memberSelect">
+
+<option value="">Select Member</option>
+
+</select>
 
 <input
 type="date"
@@ -147,6 +149,7 @@ onkeyup="searchIssues()">
 
 </div>
 
+<script src="../js/config.js"></script>
 <script src="../js/issue.js"></script>
 
 </body>

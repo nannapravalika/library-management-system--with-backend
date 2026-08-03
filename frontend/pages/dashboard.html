@@ -87,7 +87,7 @@ Issue / Return
 
 <li>
 
-<a href="../index.html">
+<a href="#" onclick="logout()">
 
 <i class="fa-solid fa-right-from-bracket"></i>
 
@@ -113,7 +113,7 @@ Logout
 
 <i class="fa-solid fa-circle-user"></i>
 
-<span>Administrator</span>
+<span id="adminName">Administrator</span>
 
 </div>
 
@@ -127,7 +127,7 @@ Logout
 
 <i class="fa-solid fa-book"></i>
 
-<h2>420</h2>
+<h2 id="totalBooks">0</h2>
 
 <p>Total Books</p>
 
@@ -137,7 +137,7 @@ Logout
 
 <i class="fa-solid fa-users"></i>
 
-<h2>150</h2>
+<h2 id="totalMembers">0</h2>
 
 <p>Members</p>
 
@@ -147,8 +147,7 @@ Logout
 
 <i class="fa-solid fa-book-open"></i>
 
-<h2>95</h2>
-
+<h2 id="issuedBooks">0</h2>
 <p>Issued Books</p>
 
 </div>
@@ -157,9 +156,9 @@ Logout
 
 <i class="fa-solid fa-circle-check"></i>
 
-<h2>325</h2>
 
-<p>Available</p>
+<h2 id="availableBooks">0</h2>
+<p> Available Books </p>
 
 </div>
 
@@ -225,55 +224,7 @@ Issue Book
 
 </thead>
 
-<tbody>
-
-<tr>
-
-<td>101</td>
-
-<td>Artificial Intelligence</td>
-
-<td>Stuart Russell</td>
-
-<td>Available</td>
-
-</tr>
-
-<tr>
-
-<td>102</td>
-
-<td>Clean Code</td>
-
-<td>Robert Martin</td>
-
-<td>Issued</td>
-
-</tr>
-
-<tr>
-
-<td>103</td>
-
-<td>Operating Systems</td>
-
-<td>Silberschatz</td>
-
-<td>Available</td>
-
-</tr>
-
-<tr>
-
-<td>104</td>
-
-<td>Database Systems</td>
-
-<td>Elmasri</td>
-
-<td>Available</td>
-
-</tr>
+<tbody id="recentBooksBody">
 
 </tbody>
 
@@ -284,6 +235,9 @@ Issue Book
 </main>
 
 </div>
+
+<script src="../js/config.js"></script>
+<script src="../js/dashboard.js"></script>
 
 </body>
 

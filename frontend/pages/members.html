@@ -84,7 +84,7 @@ Issue / Return
 
 <li>
 
-<a href="../index.html">
+<a href="#" onclick="logout()">
 
 <i class="fa-solid fa-right-from-bracket"></i>
 
@@ -103,7 +103,10 @@ Logout
 <h1>Member Management</h1>
 
 <div class="crud-form">
-
+<input
+type="text"
+id="memberId"
+placeholder="Member ID">
 <input
 type="text"
 id="memberName"
@@ -118,11 +121,21 @@ placeholder="Email Address">
 type="text"
 id="memberPhone"
 placeholder="Phone Number">
+<input
+type="text"
+id="memberAddress"
+placeholder="Address">
+<select id="memberStatus">
 
-<button onclick="addMember()">
+<option value="Active">Active</option>
 
+<option value="Inactive">Inactive</option>
+
+</select>
+
+<input type="hidden" id="editingMemberId">
+<button id="memberBtn" onclick="saveMember()">
 Add Member
-
 </button>
 
 </div>
@@ -147,11 +160,17 @@ onkeyup="searchMembers()">
 
 <tr>
 
+<th>Member ID</th>
+
 <th>Name</th>
 
 <th>Email</th>
 
 <th>Phone</th>
+
+<th>Address</th>
+
+<th>Status</th>
 
 <th>Actions</th>
 
@@ -159,9 +178,10 @@ onkeyup="searchMembers()">
 
 </thead>
 
-<tbody>
+<tbody id="memberTableBody">
 
 </tbody>
+ 
 
 </table>
 
@@ -169,6 +189,7 @@ onkeyup="searchMembers()">
 
 </div>
 
+<script src="../js/config.js"></script>
 <script src="../js/members.js"></script>
 
 </body>
