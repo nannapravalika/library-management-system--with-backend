@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const authMiddleware = require("../middleware/authMiddleware");
+const auth = require("../middleware/authMiddleware");
 
 const {
     addBook,
@@ -13,18 +13,26 @@ const {
     searchBooks
 } = require("../controllers/bookController");
 
-router.use(authMiddleware);
+// ==============================
+// Book Routes
+// ==============================
 
-router.post("/", addBook);
+// Search Books
+router.get("/search", auth, searchBooks);
 
-router.get("/", getBooks);
+// Get All Books
+router.get("/", auth, getBooks);
 
-router.get("/search", searchBooks);
+// Get Single Book
+router.get("/:id", auth, getBook);
 
-router.get("/:id", getBook);
+// Add Book
+router.post("/", auth, addBook);
 
-router.put("/:id", updateBook);
+// Update Book
+router.put("/:id", auth, updateBook);
 
-router.delete("/:id", deleteBook);
+// Delete Book
+router.delete("/:id", auth, deleteBook);
 
 module.exports = router;

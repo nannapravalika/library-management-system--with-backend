@@ -1,14 +1,40 @@
+// =======================================
+// Login
+// =======================================
+
 const loginForm = document.getElementById("loginForm");
+const message = document.getElementById("loginMessage");
+
+// Redirect if already logged in
+if (isLoggedIn()) {
+    window.location.href = "dashboard.html";
+}
 
 loginForm.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
-    const email = document.getElementById("username").value.trim();
+    const submitBtn = loginForm.querySelector("button");
 
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Logging in...";
+
+    message.textContent = "";
+
+    const email = document.getElementById("username").value.trim().toLowerCase();
     const password = document.getElementById("password").value.trim();
 
-    const message = document.getElementById("loginMessage");
+    // Basic Validation
+    if (!email || !password) {
+
+        message.style.color = "red";
+        message.textContent = "Email and Password are required.";
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Login";
+
+        return;
+    }
 
     try {
 
@@ -27,39 +53,31 @@ loginForm.addEventListener("submit", async (e) => {
 
         });
 
-        const data = await response.json();
+        const data = await handleResponse(response);
 
-        if (!response.ok) {
-
-            message.innerHTML = data.message;
-            message.style.color = "red";
-            return;
-
-        }
+        if (!data) return;
 
         localStorage.setItem("token", data.token);
-
         localStorage.setItem("admin", JSON.stringify(data.admin));
 
         message.style.color = "green";
-
-        message.innerHTML = "Login Successful";
+        message.textContent = "Login Successful! Redirecting...";
 
         setTimeout(() => {
-
             window.location.href = "dashboard.html";
+        }, 1000);
 
-        }, 800);
+    } catch (error) {
 
-    }
-
-    catch (error) {
-
-        console.log(error);
-
-        message.innerHTML = "Server Error";
+        console.error(error);
 
         message.style.color = "red";
+        message.textContent = error.message || "Unable to login.";
+
+    } finally {
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Login";
 
     }
 

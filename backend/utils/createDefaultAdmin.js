@@ -2,32 +2,45 @@ const bcrypt = require("bcrypt");
 const Admin = require("../models/Admin");
 
 const createDefaultAdmin = async () => {
+
     try {
+
         const adminExists = await Admin.findOne({
-            email: "admin@library.com"
+            email: process.env.ADMIN_EMAIL
         });
 
         if (adminExists) {
-            console.log("✅ Default admin already exists.");
+
+            console.log("Admin Already Exists");
             return;
+
         }
 
-        const hashedPassword = await bcrypt.hash("Admin@123", 10);
+        const hashedPassword = await bcrypt.hash(
+            process.env.ADMIN_PASSWORD,
+            10
+        );
 
         await Admin.create({
-            name: "Library Admin",
-            email: "admin@library.com",
+
+            name: process.env.ADMIN_NAME,
+            email: process.env.ADMIN_EMAIL,
             password: hashedPassword,
             role: "admin"
+
         });
 
-        console.log("✅ Default Admin Created");
-        console.log("Email: admin@library.com");
-        console.log("Password: Admin@123");
+        console.log("Default Admin Created");
 
-    } catch (error) {
-        console.log(error.message);
     }
+
+    catch (error) {
+
+        console.error("Error Creating Default Admin");
+        console.error(error.message);
+
+    }
+
 };
 
 module.exports = createDefaultAdmin;

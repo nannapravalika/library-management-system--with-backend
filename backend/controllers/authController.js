@@ -1,77 +1,81 @@
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const Admin = require("../models/Admin");
 
-const login = async (req, res) => {
+exports.login = async (req,res)=>{
 
-    try {
+    try{
 
-        const { email, password } = req.body;
+        const {email,password}=req.body;
 
-        if (!email || !password) {
+        if(!email || !password){
+
             return res.status(400).json({
-                success: false,
-                message: "Email and Password are required."
+                success:false,
+                message:"Email and Password are required"
             });
+
         }
 
-        const admin = await Admin.findOne({
-            email
-        });
+        const admin = await Admin.findOne({email}).select("+password");
 
-        if (!admin) {
+        if(!admin){
+
             return res.status(401).json({
-                success: false,
-                message: "Invalid Email"
+                success:false,
+                message:"Invalid Email"
             });
+
         }
 
-        const isMatch = await bcrypt.compare(
-            password,
-            admin.password
-        );
+        const isMatch = await admin.matchPassword(password);
 
-        if (!isMatch) {
+        if(!isMatch){
+
             return res.status(401).json({
-                success: false,
-                message: "Invalid Password"
+                success:false,
+                message:"Invalid Password"
             });
+
         }
 
         const token = jwt.sign(
-            {
-                id: admin._id,
-                role: admin.role
-            },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: "1d"
-            }
-        );
-
-        res.status(200).json({
-            success: true,
-            message: "Login Successful",
-            token,
-            admin: {
-                id: admin._id,
-                name: admin.name,
-                email: admin.email
-            }
+        {
+            id:admin._id,
+            role:admin.role
+        },
+        process.env.JWT_SECRET,
+        {
+            expiresIn:"1d"
         });
 
-    } catch (error) {
+        res.status(200).json({
 
-        res.status(500).json({
-            success: false,
-            message: error.message
+            success:true,
+            message:"Login Successful",
+
+            token,
+
+            admin:{
+                id:admin._id,
+                name:admin.name,
+                email:admin.email,
+                role:admin.role
+            }
+
         });
 
     }
 
-};
+    catch(error){
 
-module.exports = {
-    login
+        res.status(500).json({
+
+            success:false,
+            message:error.message
+
+        });
+
+    }
+
 };

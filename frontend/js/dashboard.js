@@ -1,8 +1,14 @@
-const token = localStorage.getItem("token");
+// =======================================
+// Authentication
+// =======================================
 
-if (!token) {
+if (!isLoggedIn()) {
     window.location.href = "login.html";
 }
+
+// =======================================
+// DOM Elements
+// =======================================
 
 const totalBooks = document.getElementById("totalBooks");
 const totalMembers = document.getElementById("totalMembers");
@@ -11,7 +17,10 @@ const availableBooks = document.getElementById("availableBooks");
 const adminName = document.getElementById("adminName");
 const recentBooksBody = document.getElementById("recentBooksBody");
 
-// Load dashboard statistics
+// =======================================
+// Load Dashboard Statistics
+// =======================================
+
 async function loadDashboard() {
 
     try {
@@ -20,27 +29,29 @@ async function loadDashboard() {
             headers: authHeader()
         });
 
-        const data = await response.json();
+        const data = await handleResponse(response);
 
-        if (!response.ok) {
-            alert(data.message);
-            return;
-        }
+        if (!data) return;
 
-        totalBooks.innerText = data.dashboard.totalBooks;
-        totalMembers.innerText = data.dashboard.totalMembers;
-        issuedBooks.innerText = data.dashboard.totalIssued;
-        availableBooks.innerText = data.dashboard.availableBooks;
+        totalBooks.textContent = data.dashboard.totalBooks;
+        totalMembers.textContent = data.dashboard.totalMembers;
+        issuedBooks.textContent = data.dashboard.totalIssued;
+        availableBooks.textContent = data.dashboard.availableBooks;
 
     } catch (error) {
 
-        console.log(error);
+        console.error(error);
+
+        alert(error.message);
 
     }
 
 }
 
-// Load recent books
+// =======================================
+// Load Recent Books
+// =======================================
+
 async function loadRecentBooks() {
 
     try {
@@ -49,43 +60,67 @@ async function loadRecentBooks() {
             headers: authHeader()
         });
 
-        const data = await response.json();
+        const data = await handleResponse(response);
+
+        if (!data) return;
 
         recentBooksBody.innerHTML = "";
 
-        data.books.slice(0, 5).forEach(book => {
+        if (data.books.length === 0) {
 
-            recentBooksBody.innerHTML += `
+            recentBooksBody.innerHTML = `
                 <tr>
-                    <td>${book.bookId}</td>
-                    <td>${book.title}</td>
-                    <td>${book.author}</td>
-                    <td>${book.availableCopies > 0 ? "Available" : "Issued"}</td>
+                    <td colspan="4">No Books Available</td>
                 </tr>
             `;
 
-        });
+            return;
+        }
+
+        data.books
+            .slice(0, 5)
+            .forEach(book => {
+
+                recentBooksBody.innerHTML += `
+                    <tr>
+                        <td>${book.bookId}</td>
+                        <td>${book.title}</td>
+                        <td>${book.author}</td>
+                        <td>${book.availableCopies > 0 ? "Available" : "Issued"}</td>
+                    </tr>
+                `;
+
+            });
 
     } catch (error) {
 
-        console.log(error);
+        console.error(error);
 
     }
 
 }
 
-// Load admin details
+// =======================================
+// Load Admin Information
+// =======================================
+
 function loadAdmin() {
 
-    const admin = JSON.parse(localStorage.getItem("admin"));
+    const admin = getAdmin();
 
     if (admin) {
-        adminName.innerText = admin.name;
+        adminName.textContent = admin.name;
+    } else {
+        adminName.textContent = "Administrator";
     }
 
 }
 
-window.onload = async () => {
+// =======================================
+// Initialize Dashboard
+// =======================================
+
+async function initializeDashboard() {
 
     loadAdmin();
 
@@ -93,18 +128,20 @@ window.onload = async () => {
 
     await loadRecentBooks();
 
-};
-
-// Logout
-if (typeof logout !== "function") {
-
-    function logout() {
-
-        localStorage.removeItem("token");
-        localStorage.removeItem("admin");
-
-        window.location.href = "../index.html";
-
-    }
-
 }
+
+window.addEventListener("DOMContentLoaded", initializeDashboard);
+
+// =======================================
+// Auto Refresh Every 30 Seconds
+// =======================================
+
+setInterval(() => {
+
+    loadDashboard();
+
+    loadRecentBooks();
+
+}, 30000);
+
+console.log("Dashboard Loaded Successfully");

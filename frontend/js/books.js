@@ -8,7 +8,10 @@ if (!token) {
     window.location.href = "login.html";
 }
 
-// Form Fields
+// ===============================
+// Form Elements
+// ===============================
+
 const bookTitle = document.getElementById("bookTitle");
 const bookAuthor = document.getElementById("bookAuthor");
 const bookCategory = document.getElementById("bookCategory");
@@ -18,8 +21,11 @@ const quantity = document.getElementById("quantity");
 const shelf = document.getElementById("shelf");
 
 const editingBookId = document.getElementById("editingBookId");
+
 const searchInput = document.getElementById("searchBook");
+
 const tableBody = document.getElementById("bookTableBody");
+
 const bookBtn = document.getElementById("bookBtn");
 
 // ===============================
@@ -52,7 +58,7 @@ async function loadBooks() {
 
     catch (error) {
 
-        console.log(error);
+        console.error(error);
 
         alert("Unable to load books.");
 
@@ -61,7 +67,7 @@ async function loadBooks() {
 }
 
 // ===============================
-// Render Books
+// Display Books
 // ===============================
 
 function renderBooks(books) {
@@ -71,11 +77,17 @@ function renderBooks(books) {
     if (books.length === 0) {
 
         tableBody.innerHTML = `
+
             <tr>
+
                 <td colspan="9">
+
                     No Books Found
+
                 </td>
+
             </tr>
+
         `;
 
         return;
@@ -86,41 +98,45 @@ function renderBooks(books) {
 
         tableBody.innerHTML += `
 
-        <tr>
+            <tr>
 
-            <td>${book.bookId}</td>
+                <td>${book.bookId}</td>
 
-            <td>${book.title}</td>
+                <td>${book.title}</td>
 
-            <td>${book.author}</td>
+                <td>${book.author}</td>
 
-            <td>${book.category}</td>
+                <td>${book.category}</td>
 
-            <td>${book.isbn}</td>
+                <td>${book.isbn}</td>
 
-            <td>${book.quantity}</td>
+                <td>${book.quantity}</td>
 
-            <td>${book.availableCopies}</td>
+                <td>${book.availableCopies}</td>
 
-            <td>${book.shelf || "-"}</td>
+                <td>${book.shelf || "-"}</td>
 
-            <td>
+                <td>
 
-                <button onclick="editBook('${book._id}')">
+                    <button
+                        class="edit-btn"
+                        onclick="editBook('${book._id}')">
 
-                    Edit
+                        Edit
 
-                </button>
+                    </button>
 
-                <button onclick="deleteBook('${book._id}')">
+                    <button
+                        class="delete-btn"
+                        onclick="deleteBook('${book._id}')">
 
-                    Delete
+                        Delete
 
-                </button>
+                    </button>
 
-            </td>
+                </td>
 
-        </tr>
+            </tr>
 
         `;
 
@@ -138,19 +154,27 @@ async function searchBooks() {
 
     try {
 
-        const response = await fetch(
+        const url = keyword
 
-            `${BASE_URL}/books/search?keyword=${encodeURIComponent(keyword)}`,
+            ? `${BASE_URL}/books/search?keyword=${encodeURIComponent(keyword)}`
 
-            {
+            : `${BASE_URL}/books`;
 
-                headers: authHeader()
+        const response = await fetch(url, {
 
-            }
+            headers: authHeader()
 
-        );
+        });
 
         const data = await response.json();
+
+        if (!response.ok) {
+
+            alert(data.message);
+
+            return;
+
+        }
 
         renderBooks(data.books);
 
@@ -158,11 +182,12 @@ async function searchBooks() {
 
     catch (error) {
 
-        console.log(error);
+        console.error(error);
 
     }
 
 }
+
 // ===============================
 // Save Book
 // ===============================
@@ -173,15 +198,17 @@ async function saveBook() {
 
         addBook();
 
-    } else {
+    }
+
+    else {
 
         updateBook();
 
     }
 
 }
-
-// ===============================
+next
+next// ===============================
 // Add Book
 // ===============================
 
@@ -242,7 +269,7 @@ async function addBook() {
 
         }
 
-        alert("Book Added Successfully.");
+        alert(data.message);
 
         clearForm();
 
@@ -252,7 +279,7 @@ async function addBook() {
 
     catch (error) {
 
-        console.log(error);
+        console.error(error);
 
         alert("Server Error");
 
@@ -268,19 +295,21 @@ async function editBook(id) {
 
     try {
 
-        const response = await fetch(
+        const response = await fetch(`${BASE_URL}/books/${id}`, {
 
-            `${BASE_URL}/books/${id}`,
+            headers: authHeader()
 
-            {
-
-                headers: authHeader()
-
-            }
-
-        );
+        });
 
         const data = await response.json();
+
+        if (!response.ok) {
+
+            alert(data.message);
+
+            return;
+
+        }
 
         const book = data.book;
 
@@ -298,15 +327,23 @@ async function editBook(id) {
 
         quantity.value = book.quantity;
 
-        shelf.value = book.shelf;
+        shelf.value = book.shelf || "";
 
         bookBtn.innerText = "Update Book";
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
 
     }
 
     catch (error) {
 
-        console.log(error);
+        console.error(error);
 
     }
 
@@ -364,7 +401,7 @@ async function updateBook() {
 
         }
 
-        alert("Book Updated Successfully.");
+        alert(data.message);
 
         clearForm();
 
@@ -374,7 +411,7 @@ async function updateBook() {
 
     catch (error) {
 
-        console.log(error);
+        console.error(error);
 
         alert("Server Error");
 
@@ -389,7 +426,11 @@ async function deleteBook(id) {
 
     const confirmDelete = confirm("Are you sure you want to delete this book?");
 
-    if (!confirmDelete) return;
+    if (!confirmDelete) {
+
+        return;
+
+    }
 
     try {
 
@@ -411,7 +452,7 @@ async function deleteBook(id) {
 
         }
 
-        alert("Book Deleted Successfully.");
+        alert(data.message);
 
         loadBooks();
 
@@ -419,7 +460,7 @@ async function deleteBook(id) {
 
     catch (error) {
 
-        console.log(error);
+        console.error(error);
 
         alert("Server Error");
 
@@ -435,36 +476,26 @@ function clearForm() {
 
     editingBookId.value = "";
 
-    bookId.value = "";
-
-    bookTitle.value = "";
-
-    bookAuthor.value = "";
-
-    bookCategory.value = "";
-
-    isbn.value = "";
-
-    quantity.value = "";
-
-    shelf.value = "";
+    document.getElementById("bookForm").reset();
 
     bookBtn.innerText = "Add Book";
 
 }
 
 // ===============================
-// Auto Load Books
+// Initialize Page
 // ===============================
 
-window.onload = () => {
+window.addEventListener("DOMContentLoaded", () => {
 
     loadBooks();
 
-};
+    searchInput.addEventListener("keyup", searchBooks);
+
+});
 
 // ===============================
-// Logout (if config.js doesn't contain it)
+// Logout
 // ===============================
 
 if (typeof logout !== "function") {
@@ -472,6 +503,7 @@ if (typeof logout !== "function") {
     function logout() {
 
         localStorage.removeItem("token");
+
         localStorage.removeItem("admin");
 
         window.location.href = "../index.html";

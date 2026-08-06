@@ -1,31 +1,57 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const adminSchema = new mongoose.Schema(
-    {
-        name: {
-            type: String,
-            required: true,
-            trim: true
-        },
-        email: {
-            type: String,
-            required: true,
-            unique: true,
-            lowercase: true,
-            trim: true
-        },
-        password: {
-            type: String,
-            required: true
-        },
-        role: {
-            type: String,
-            default: "admin"
-        }
+{
+    name: {
+        type: String,
+        required: [true, "Name is required"],
+        trim: true
     },
-    {
-        timestamps: true
-    }
-);
 
-module.exports = mongoose.model("Admin", adminSchema);
+    email: {
+        type: String,
+        required: [true, "Email is required"],
+        unique: true,
+        trim: true,
+        lowercase: true,
+        match: [/^\S+@\S+\.\S+$/, "Please enter a valid email"]
+    },
+
+    password: {
+        type: String,
+        required: [true, "Password is required"],
+        minlength: 6,
+        select: false
+    },
+
+    role: {
+        type: String,
+        default: "admin"
+    }
+
+},
+{
+    timestamps: true,
+    versionKey: false
+});
+
+adminSchema.pre("save", async function(next){
+
+    if(!this.isModified("password")){
+        return next();
+    }
+
+    this.password = await bcrypt.hash(this.password,10);
+
+    next();
+
+});
+
+adminSchema.methods.matchPassword = async function(password){
+
+    return await bcrypt.compare(password,this.password);
+
+};
+
+module.exports = mongoose.model("Admin",adminSchema);

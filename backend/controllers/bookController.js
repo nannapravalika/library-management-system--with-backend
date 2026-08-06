@@ -1,8 +1,13 @@
 const Book = require("../models/Book");
+const Issue = require("../models/Issue");
 
+// ======================================
 // Add Book
+// ======================================
+
 const addBook = async (req, res) => {
     try {
+
         const {
             bookId,
             title,
@@ -40,8 +45,8 @@ const addBook = async (req, res) => {
             author,
             category,
             isbn,
-            quantity,
-            availableCopies: quantity,
+            quantity: Number(quantity),
+            availableCopies: Number(quantity),
             shelf
         });
 
@@ -61,16 +66,19 @@ const addBook = async (req, res) => {
     }
 };
 
+// ======================================
 // Get All Books
+// ======================================
+
 const getBooks = async (req, res) => {
 
     try {
 
-        const books = await Book.find().sort({
-            createdAt: -1
-        });
+        const books = await Book.find()
+            .sort({ createdAt: -1 })
+            .lean();
 
-        res.json({
+        res.status(200).json({
             success: true,
             count: books.length,
             books
@@ -87,7 +95,10 @@ const getBooks = async (req, res) => {
 
 };
 
+// ======================================
 // Get Single Book
+// ======================================
+
 const getBook = async (req, res) => {
 
     try {
@@ -95,15 +106,13 @@ const getBook = async (req, res) => {
         const book = await Book.findById(req.params.id);
 
         if (!book) {
-
             return res.status(404).json({
                 success: false,
                 message: "Book not found."
             });
-
         }
 
-        res.json({
+        res.status(200).json({
             success: true,
             book
         });
@@ -119,7 +128,10 @@ const getBook = async (req, res) => {
 
 };
 
+// ======================================
 // Update Book
+// ======================================
+
 const updateBook = async (req, res) => {
 
     try {
@@ -127,12 +139,25 @@ const updateBook = async (req, res) => {
         const book = await Book.findById(req.params.id);
 
         if (!book) {
-
             return res.status(404).json({
                 success: false,
                 message: "Book not found."
             });
+        }
 
+        const duplicate = await Book.findOne({
+            _id: { $ne: req.params.id },
+            $or: [
+                { bookId: req.body.bookId },
+                { isbn: req.body.isbn }
+            ]
+        });
+
+        if (duplicate) {
+            return res.status(400).json({
+                success: false,
+                message: "Book ID or ISBN already exists."
+            });
         }
 
         const issuedCopies = book.quantity - book.availableCopies;
@@ -142,18 +167,18 @@ const updateBook = async (req, res) => {
         book.author = req.body.author;
         book.category = req.body.category;
         book.isbn = req.body.isbn;
-        book.quantity = req.body.quantity;
+        book.quantity = Number(req.body.quantity);
         book.shelf = req.body.shelf;
 
-        // Recalculate available copies
-        book.availableCopies = req.body.quantity - issuedCopies;
+        book.availableCopies = book.quantity - issuedCopies;
 
         if (book.availableCopies < 0) {
             book.availableCopies = 0;
         }
 
         await book.save();
-        res.json({
+
+        res.status(200).json({
             success: true,
             message: "Book updated successfully.",
             book
@@ -170,7 +195,10 @@ const updateBook = async (req, res) => {
 
 };
 
+// ======================================
 // Delete Book
+// ======================================
+
 const deleteBook = async (req, res) => {
 
     try {
@@ -178,27 +206,27 @@ const deleteBook = async (req, res) => {
         const book = await Book.findById(req.params.id);
 
         if (!book) {
-
             return res.status(404).json({
                 success: false,
                 message: "Book not found."
             });
-
         }
-        const issued = await Issue.findOne({
+
+        const issuedBook = await Issue.findOne({
             book: book._id,
             status: "Issued"
         });
 
-        if (issued) {
+        if (issuedBook) {
             return res.status(400).json({
                 success: false,
                 message: "Book is currently issued and cannot be deleted."
             });
         }
+
         await book.deleteOne();
 
-        res.json({
+        res.status(200).json({
             success: true,
             message: "Book deleted successfully."
         });
@@ -214,24 +242,27 @@ const deleteBook = async (req, res) => {
 
 };
 
+// ======================================
 // Search Books
+// ======================================
+
 const searchBooks = async (req, res) => {
 
     try {
 
-        const keyword = req.query.keyword || "";
+        const keyword = req.query.keyword?.trim() || "";
 
         const books = await Book.find({
             $or: [
+                { bookId: { $regex: keyword, $options: "i" } },
                 { title: { $regex: keyword, $options: "i" } },
                 { author: { $regex: keyword, $options: "i" } },
                 { category: { $regex: keyword, $options: "i" } },
-                { isbn: { $regex: keyword, $options: "i" } },
-                { bookId: { $regex: keyword, $options: "i" } }
+                { isbn: { $regex: keyword, $options: "i" } }
             ]
-        });
+        }).lean();
 
-        res.json({
+        res.status(200).json({
             success: true,
             count: books.length,
             books

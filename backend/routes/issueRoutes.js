@@ -2,32 +2,33 @@ const express = require("express");
 
 const router = express.Router();
 
-const authMiddleware = require("../middleware/authMiddleware");
+const auth = require("../middleware/authMiddleware");
 
 const {
-
     issueBook,
-
     returnBook,
-
     getIssues,
-
     getIssue,
-
     filterIssues
-
 } = require("../controllers/issueController");
 
-router.use(authMiddleware);
+// ==============================
+// Issue Routes
+// ==============================
 
-router.post("/", issueBook);
+// Filter Issues
+router.get("/filter", auth, filterIssues);
 
-router.get("/", getIssues);
+// Get All Issues
+router.get("/", auth, getIssues);
 
-router.get("/filter", filterIssues);
+// Get Single Issue
+router.get("/:id", auth, getIssue);
 
-router.get("/:id", getIssue);
+// Issue Book
+router.post("/", auth, issueBook);
 
-router.put("/return/:id", returnBook);
+// Return Book
+router.put("/return/:id", auth, returnBook);
 
 module.exports = router;

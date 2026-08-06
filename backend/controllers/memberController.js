@@ -1,8 +1,14 @@
 const Member = require("../models/Member");
+const Issue = require("../models/Issue");
 
+// ======================================
 // Add Member
+// ======================================
+
 const addMember = async (req, res) => {
+
     try {
+
         const {
             memberId,
             name,
@@ -56,18 +62,22 @@ const addMember = async (req, res) => {
         });
 
     }
+
 };
 
+// ======================================
 // Get All Members
+// ======================================
+
 const getMembers = async (req, res) => {
 
     try {
 
-        const members = await Member.find().sort({
-            createdAt: -1
-        });
+        const members = await Member.find()
+            .sort({ createdAt: -1 })
+            .lean();
 
-        res.json({
+        res.status(200).json({
             success: true,
             count: members.length,
             members
@@ -84,7 +94,10 @@ const getMembers = async (req, res) => {
 
 };
 
+// ======================================
 // Get Single Member
+// ======================================
+
 const getMember = async (req, res) => {
 
     try {
@@ -92,15 +105,13 @@ const getMember = async (req, res) => {
         const member = await Member.findById(req.params.id);
 
         if (!member) {
-
             return res.status(404).json({
                 success: false,
                 message: "Member not found."
             });
-
         }
 
-        res.json({
+        res.status(200).json({
             success: true,
             member
         });
@@ -116,7 +127,10 @@ const getMember = async (req, res) => {
 
 };
 
+// ======================================
 // Update Member
+// ======================================
+
 const updateMember = async (req, res) => {
 
     try {
@@ -124,19 +138,37 @@ const updateMember = async (req, res) => {
         const member = await Member.findById(req.params.id);
 
         if (!member) {
-
             return res.status(404).json({
                 success: false,
                 message: "Member not found."
             });
-
         }
 
-        Object.assign(member, req.body);
+        const duplicate = await Member.findOne({
+            _id: { $ne: req.params.id },
+            $or: [
+                { memberId: req.body.memberId },
+                { email: req.body.email }
+            ]
+        });
+
+        if (duplicate) {
+            return res.status(400).json({
+                success: false,
+                message: "Member ID or Email already exists."
+            });
+        }
+
+        member.memberId = req.body.memberId;
+        member.name = req.body.name;
+        member.email = req.body.email;
+        member.phone = req.body.phone;
+        member.address = req.body.address;
+        member.status = req.body.status;
 
         await member.save();
 
-        res.json({
+        res.status(200).json({
             success: true,
             message: "Member updated successfully.",
             member
@@ -153,7 +185,10 @@ const updateMember = async (req, res) => {
 
 };
 
+// ======================================
 // Delete Member
+// ======================================
+
 const deleteMember = async (req, res) => {
 
     try {
@@ -161,13 +196,12 @@ const deleteMember = async (req, res) => {
         const member = await Member.findById(req.params.id);
 
         if (!member) {
-
             return res.status(404).json({
                 success: false,
                 message: "Member not found."
             });
-
         }
+
         const activeIssue = await Issue.findOne({
             member: member._id,
             status: "Issued"
@@ -179,9 +213,10 @@ const deleteMember = async (req, res) => {
                 message: "Member has borrowed books. Cannot delete."
             });
         }
+
         await member.deleteOne();
 
-        res.json({
+        res.status(200).json({
             success: true,
             message: "Member deleted successfully."
         });
@@ -197,12 +232,15 @@ const deleteMember = async (req, res) => {
 
 };
 
+// ======================================
 // Search Members
+// ======================================
+
 const searchMembers = async (req, res) => {
 
     try {
 
-        const keyword = req.query.keyword || "";
+        const keyword = req.query.keyword?.trim() || "";
 
         const members = await Member.find({
             $or: [
@@ -211,9 +249,9 @@ const searchMembers = async (req, res) => {
                 { email: { $regex: keyword, $options: "i" } },
                 { phone: { $regex: keyword, $options: "i" } }
             ]
-        });
+        }).lean();
 
-        res.json({
+        res.status(200).json({
             success: true,
             count: members.length,
             members

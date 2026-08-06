@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const authMiddleware = require("../middleware/authMiddleware");
+const auth = require("../middleware/authMiddleware");
 
 const {
     addMember,
@@ -13,18 +13,26 @@ const {
     searchMembers
 } = require("../controllers/memberController");
 
-router.use(authMiddleware);
+// ==============================
+// Member Routes
+// ==============================
 
-router.post("/", addMember);
+// Search Members
+router.get("/search", auth, searchMembers);
 
-router.get("/", getMembers);
+// Get All Members
+router.get("/", auth, getMembers);
 
-router.get("/search", searchMembers);
+// Get Single Member
+router.get("/:id", auth, getMember);
 
-router.get("/:id", getMember);
+// Add Member
+router.post("/", auth, addMember);
 
-router.put("/:id", updateMember);
+// Update Member
+router.put("/:id", auth, updateMember);
 
-router.delete("/:id", deleteMember);
+// Delete Member
+router.delete("/:id", auth, deleteMember);
 
 module.exports = router;

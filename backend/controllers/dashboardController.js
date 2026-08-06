@@ -2,57 +2,71 @@ const Book = require("../models/Book");
 const Member = require("../models/Member");
 const Issue = require("../models/Issue");
 
+// ======================================
+// Dashboard Statistics
+// ======================================
+
 const getDashboard = async (req, res) => {
 
     try {
 
-        const totalBooks = await Book.countDocuments();
+        const [
+            totalBooks,
+            totalMembers,
+            totalIssuedBooks,
+            availableBooks,
+            recentIssues
+        ] = await Promise.all([
 
-        const totalMembers = await Member.countDocuments();
+            Book.countDocuments(),
 
-        const totalIssued = await Issue.countDocuments({
-            status: "Issued"
-        });
+            Member.countDocuments(),
 
-        const totalReturned = await Issue.countDocuments({
-            status: "Returned"
-        });
+            Issue.countDocuments({ status: "Issued" }),
 
-        const availableBooks = await Book.aggregate([
-            {
-                $group: {
-                    _id: null,
-                    total: {
-                        $sum: "$availableCopies"
+            Book.aggregate([
+                {
+                    $group: {
+                        _id: null,
+                        total: {
+                            $sum: "$availableCopies"
+                        }
                     }
                 }
-            }
+            ]),
+
+            Issue.find()
+                .populate("member", "memberId name")
+                .populate("book", "bookId title")
+                .populate("issuedBy", "name")
+                .sort({ createdAt: -1 })
+                .limit(5)
+                .lean()
+
         ]);
 
-        res.json({
+        res.status(200).json({
 
             success: true,
 
-            dashboard: {
+            totalBooks,
 
-                totalBooks,
+            totalMembers,
 
-                totalMembers,
+            totalIssuedBooks,
 
-                totalIssued,
+            availableBooks:
+                availableBooks.length > 0
+                    ? availableBooks[0].total
+                    : 0,
 
-                totalReturned,
-
-                availableBooks:
-                    availableBooks.length > 0
-                        ? availableBooks[0].total
-                        : 0
-
-            }
+            recentIssues
 
         });
 
     } catch (error) {
+
+        console.error(error);
 
         res.status(500).json({
 
